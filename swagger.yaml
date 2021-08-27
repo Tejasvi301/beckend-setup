@@ -1,0 +1,135 @@
+swagger: "2.0"
+info:
+  description: "Swagger"
+  version: "1.0.0"
+  title: "Swagger"
+  contact:
+    email: "abc@gmail.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: ""
+# basePath: ""
+tags:
+- name: "Api"
+  description: "Everything about Api"
+  externalDocs:
+    description: "Find out more"
+    url: "http://swagger.io"
+schemes:
+- "https"
+- "http"
+paths:
+  /api/information:
+    post:
+      tags:
+      - "api"
+      summary: "Add a new user to the server"
+      description: ""
+      operationId: "addApi"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Api object that needs to be added to the Server"
+        required: true
+        schema:
+          $ref: "#/definitions/Api"
+      responses:
+        "200":
+          description: "Invalid input"
+      security:
+      - Apiserver_auth:
+        - "write:Api"
+        - "read:Api"
+    /api/information:
+    get:
+      tags:
+      - "api"
+      summary: "Finds user"
+      description: ""
+      operationId: "findapi"
+      produces:
+      - "application/xml"
+      - "application/json"
+      # parameters:
+      # - name: "tags"
+      #   in: "query"
+      #   description: "Tags to filter by"
+      #   required: true
+      #   type: "array"
+      #   items:
+      #     type: "string"
+      #   collectionFormat: "multi"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            xml:
+                  name: "Fname"
+            items:
+              $ref: "#/definitions/Api"
+        "400":
+          description: "Invalid user "
+      security:
+      - apiserver_auth:
+        - "write:api"
+        - "read:api"
+      # deprecated: true
+  
+securityDefinitions:
+  Apiserver_auth:
+    type: "oauth2"
+    authorizationUrl: ""
+    flow: "implicit"
+    scopes:
+      write:api: "modify api in your account"
+      read:api: "read your api"
+  api_key:
+    type: "apiKey"
+    name: "api_key"
+    in: "header"
+
+definitions:
+  Api:
+    type: "object"
+    properties:
+      Fname:
+        type: "string"
+      Lname:
+        type: "string"
+      Title:
+        type: "string"
+      # TitleA:
+      #   type: "string"
+      contact:
+        type: "number"
+      email:
+        type: "string"
+      # dob:
+      #   type: "Date"
+      country:
+        type: "string"
+      # default: true
+    xml:
+      name: "Api"
+
+  ApiResponse:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+        format: "int32"
+      type:
+        type: "string"
+      message:
+        type: "string"
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
